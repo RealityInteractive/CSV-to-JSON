@@ -2,8 +2,8 @@
   "name": "node_project_convert_csv",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "scripts": {
+    "convert": "node index2.js"
   },
   "keywords": [],
   "author": "",

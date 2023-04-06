@@ -1,25 +1,21 @@
 
 const fs = require('fs');
 const path = require('path');
-
-// require csvtojson module
 const CSVToJSON = require('csvtojson');
-const inputCsvName = 'bespoke_refrigerator_accessory_catalog.csv';
-const outputJsonName = 'bespoke_refrigerator_accessory_catalog.json';
 
-// convert users.csv file to JSON array
-CSVToJSON().fromFile('input/' + inputCsvName)
-    .then(content => {
-        writeJson(content);
-    }).catch(err => {
-        // log error if any
-        console.log(err);
-    });
+const filenames = fs.readdirSync('input/');
+filenames.map((fileName) => {
+    CSVToJSON().fromFile('input/' + fileName)
+        .then(content => {
+            writeJson(fileName.substring(0, fileName.length-4), content);
+        }).catch(err => {
+            console.log(err);
+        });
+})
 
-    
-const writeJson = (data) => {
+const writeJson = (name, data) => {
     const projRootLocation = process.cwd();
-    const loc = path.resolve(projRootLocation, 'output', outputJsonName);
-    
+    const loc = path.resolve(projRootLocation, 'output', name + '.json');
+
     fs.writeFileSync(loc, JSON.stringify(data, null, 2));
 }
