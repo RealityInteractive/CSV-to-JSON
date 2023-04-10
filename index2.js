@@ -7,7 +7,8 @@ const filenames = fs.readdirSync('input/');
 filenames.map((fileName) => {
     CSVToJSON().fromFile('input/' + fileName)
         .then(content => {
-            writeJson(fileName.substring(0, fileName.length-4), content);
+            const written = writeJson(fileName.substring(0, fileName.length-4), content);
+            console.log("wrote " + written);
         }).catch(err => {
             console.log(err);
         });
@@ -15,7 +16,10 @@ filenames.map((fileName) => {
 
 const writeJson = (name, data) => {
     const projRootLocation = process.cwd();
-    const loc = path.resolve(projRootLocation, 'output', name + '.json');
+    const outputName = name + '.json';
+    const loc = path.resolve(projRootLocation, 'output', outputName);
 
     fs.writeFileSync(loc, JSON.stringify(data, null, 2));
+
+    return outputName;
 }
